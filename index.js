@@ -1,8 +1,13 @@
-const express = require("express");
-const cors = require("cors");
-const csv = require("csv-parser");
-const fs = require("fs");
-const app = express();
+const express = require("express"),
+  cors = require("cors"),
+  csv = require("csv-parser"),
+  fs = require("fs"),
+  app = express(),
+  DAO = require("./db/dao");
+
+//Database
+
+let db = new DAO("/magic/db/file/path.sql");
 
 app.use(cors());
 
@@ -25,6 +30,7 @@ app.get("/api/dealerData", (req, res) => {
 });
 
 app.post("/api/dealerData", (req, res) => {
-  //   console.log(req);
-  res.status(200).send("gotcha");
+  //something like this to add get data onto db
+  //db.run(backup, req.carData);
+  res.status(200).send("Update Success");
 });

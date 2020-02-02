@@ -1,33 +1,39 @@
 const postButton = document.getElementById("postCarData");
 const getButton = document.getElementById("getcardata");
-const updateCarData = [];
+let updateCarData = [];
 
-const getCarData = () => {
-  console.log("clicked");
+const getCars = () => {
   axios({
     method: "get",
-    url: "http://localhost:3100/api/dealerData",
-    data: {
-      date: new Date()
-    }
+    url: "http://localhost:3100/api/dealerData"
   }).then(response => {
     postButton.disabled = false;
+    sampleDisplay(response.data[0]);
     updateCarData = [...response.data];
   });
 };
 
-const postCarData = () => {
+const postCars = () => {
   axios({
     method: "post",
     url: "http://localhost:3100/api/dealerData",
     data: {
-      date: new Date(),
       carData: updateCarData
     }
   });
 };
 
-getButton.addEventListener("click", getCarData);
-postButton.addEventListener("click", postCarData);
+getButton.addEventListener("click", getCars);
+postButton.addEventListener("click", postCars);
 
-//Add a listener to get the data from the csv then change the button to send it to not disablled then send the data.
+const sampleDisplay = dataPoint => {
+  let displayContainer = document.getElementById("sampleDisplay");
+  let list = document.createElement("ul");
+  for (let item in dataPoint) {
+    let listElement = document.createElement("li");
+    let node = document.createTextNode(`${item}: ${dataPoint[item]}`);
+    listElement.appendChild(node);
+    list.appendChild(listElement);
+  }
+  displayContainer.appendChild(list);
+};
